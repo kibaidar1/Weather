@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Погода в городе {{ weather_data['city_name'] }}</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+</head>
+<body>
+    <h1>Погода</h1>
+    <form action="/" method="get">
+        <input type="text"
+               name="city"
+               placeholder="Введите название города"
+               required
+               list="cities-list"
+        >
+        <button type="submit">Найти</button>
+    </form>
+    {% if weather_data %}
+        <h2>Погода в городе {{ weather_data['city_name'] }}</h2>
+        <ul>
+            <li>Температура: {{ weather_data['temperature_2m'] }} °C</li>
+            <li>Ощущается как: {{ weather_data['apparent_temperature'] }} °C</li>
+            <li>Скорость ветра: {{ weather_data['wind_speed_10m'] }} км/ч</li>
+            <li>Относительная влажность: {{ weather_data['relative_humidity_2m'] }} %</li>
+        </ul>
+    {% else %}
+        <h2>Город не найден</h2>
+    {% endif %}
+
+</body>
+</html>
