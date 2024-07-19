@@ -1,3 +1,5 @@
+import asyncio
+
 import httpx
 
 GEOCODE_URL = 'https://geocoding-api.open-meteo.com/v1/search'
@@ -12,7 +14,6 @@ async def get_geocode(name: str):
                   'language': 'ru',
                   'count': 1}
         response = await client.get(GEOCODE_URL, params=params)
-        print('_____________________________',response.headers)
         data = response.json()
         try:
             result = data['results'][0]
@@ -41,7 +42,7 @@ async def get_weather_by_geocode(latitude: float, longitude: float):
 
         if response.status_code == 200:
             weather_data = response.json()
-            return {**weather_data['current']}
+            return weather_data['current']
 
     return None
 

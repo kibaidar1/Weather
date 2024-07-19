@@ -1,4 +1,5 @@
-from fastapi import FastAPI, HTTPException, Request
+import uvicorn
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -16,8 +17,11 @@ async def get_weather(request: Request, city: str = None):
         weather_data = await open_meteo.get_weather_by_city_name(city)
         print(weather_data)
         return templates.TemplateResponse(name='index.html',
-                                      context={'weather_data': weather_data,
-                                               'request': request})
+                                          context={'weather_data': weather_data,
+                                                   'city': city,
+                                                   'request': request})
     return templates.TemplateResponse("index.html", {"request": request})
 
 
+if __name__ == '__main__':
+    uvicorn.run(app='main:app')
